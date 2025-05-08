@@ -82,6 +82,8 @@ export default function Navbar() {
     // { name: 'Contact', href: '/contact', icon: PhoneIcon },
     { name: 'My Posts', href: '/myposts', icon: BookOpenIcon },
     { name: 'Post Product', href: '/post-product', icon: TagIcon },
+    { name: "Notifications", href: "/notification-list", icon: BookOpenIcon },
+    { name: 'Exchange Transaction', href: '/create-exchange-transaction', icon: UserCircleIcon },
   ];
 
   const navbarVariants = {

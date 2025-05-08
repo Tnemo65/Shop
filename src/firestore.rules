@@ -35,5 +35,20 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid == resource.data.PosterID; // Allow users to update/delete their own posts
    }
 
+        match /exchangeTransactions/{transactionId} {
+      allow read: if request.auth != null && 
+                (request.auth.uid == resource.data.User1ID || 
+                 request.auth.uid == resource.data.User2ID);
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && 
+                  (request.auth.uid == resource.data.User1ID || 
+                   request.auth.uid == resource.data.User2ID);
+    }
+    
+    match /notifications/{notificationId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.UserID;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && request.auth.uid == resource.data.UserID;
+    }
  }
 }

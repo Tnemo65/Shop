@@ -26,7 +26,10 @@ import PasswordReset from './pages/PasswordReset';
 import PostProduct from './pages/PostProduct';
 import MyPosts from './pages/MyPosts';
 import UserProfile from './pages/UserProfile';
-
+import ExchangeTransactionForm from './pages/ExchangeTransactionForm';
+import NotificationItem from './components/Notification';
+import NotificationList from './pages/NotificationList';
+import ExchangeResponsePage from './pages/ExchangeResponsePage';
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -84,6 +87,10 @@ function App() {
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/post-product" element={<PostProduct />} />
             <Route path="/myposts" element={<MyPosts />} />
+            <Route path="/create-exchange-transaction" element={<ExchangeTransactionForm />} />
+            <Route path="/notifications" element={<NotificationItem />} />
+            <Route path="/notification-list" element={<NotificationList />} />
+            <Route path="/exchange-response/:exchangeId" element={<ExchangeResponsePage />} />            
             <Route path="/user/:userId" element={<UserProfile />} />
           </Routes>
         </main>
