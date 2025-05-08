@@ -27,9 +27,11 @@ import PostProduct from './pages/PostProduct';
 import MyPosts from './pages/MyPosts';
 import UserProfile from './pages/UserProfile';
 import ExchangeTransactionForm from './pages/ExchangeTransactionForm';
+import SaleTransactionForm from './pages/SaleTransactionForm';
 import NotificationItem from './components/Notification';
 import NotificationList from './pages/NotificationList';
 import ExchangeResponsePage from './pages/ExchangeResponsePage';
+import SaleResponsePage from './pages/SaleResponsePage';
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -88,6 +90,8 @@ function App() {
             <Route path="/post-product" element={<PostProduct />} />
             <Route path="/myposts" element={<MyPosts />} />
             <Route path="/create-exchange-transaction" element={<ExchangeTransactionForm />} />
+            <Route path="/create-sale-transaction" element={<SaleTransactionForm />} />
+            <Route path="/sale-response/:saleId" element={<SaleResponsePage />} />
             <Route path="/notifications" element={<NotificationItem />} />
             <Route path="/notification-list" element={<NotificationList />} />
             <Route path="/exchange-response/:exchangeId" element={<ExchangeResponsePage />} />            

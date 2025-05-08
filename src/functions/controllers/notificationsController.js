@@ -18,12 +18,14 @@ export const createNotification = async (uid, notificationData) => {
         Message: notificationData.Message,
         IsRead: false,
         CreatedAt: new Date(),
-        RelatedID: notificationData.RelatedID || ""
+        RelatedID: notificationData.RelatedID || "",
+        Type: notificationData.Type || "" // Đảm bảo trường Type được truyền vào
       });
       
       console.log("Created notification object:", JSON.stringify(notification));
       console.log("RelatedID in notification:", notification.RelatedID);
-  
+      console.log("Type in notification:", notification.Type);  // Thêm log cho Type
+
       const docRef = doc(db, "notifications", notificationID);
       await setDoc(docRef, notification.toJSON());
       
@@ -34,30 +36,62 @@ export const createNotification = async (uid, notificationData) => {
     }
   };
 
-// Lấy thông báo dựa trên uid (không phải UserID)
-export const getUserNotifications = async (uid) => {
-  try {
-    console.log("Fetching notifications for user with uid:", uid);
+  export const getUserNotifications = async (uid) => {
+    try {
+          // Đảm bảo uid tồn tại
+    if (!uid) {
+      console.error("No UID provided to getUserNotifications");
+      return [];
+    }
+    console.log("Fetching notifications for uid:", uid);
+
+      // Lấy thông báo từ Firestore
+      const notificationsRef = collection(db, "notifications");
+      const q = query(notificationsRef, where("uid", "==", uid), orderBy("CreatedAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      
+      console.log("Fetched notifications count:", querySnapshot.size); // Thêm log để kiểm tra
+      
+      // Chuyển đổi kết quả thành mảng đối tượng
+      const notifications = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        console.log("Notification data:", data); // Thêm log kiểm tra từng thông báo
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+      
+      return notifications;
+    } catch (error) {
+      console.error("Error getting user notifications:", error);
+      throw error;
+    }
+  };
+// // Lấy thông báo dựa trên uid (không phải UserID)
+// export const getUserNotifications = async (uid) => {
+//   try {
+//     console.log("Fetching notifications for user with uid:", uid);
     
-    const q = query(
-      collection(db, "notifications"),
-      where("uid", "==", uid),    // Lọc theo uid
-      orderBy("CreatedAt", "desc")
-    );
+//     const q = query(
+//       collection(db, "notifications"),
+//       where("uid", "==", uid),    // Lọc theo uid
+//       orderBy("CreatedAt", "desc")
+//     );
     
-    const querySnapshot = await getDocs(q);
-    const notifications = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+//     const querySnapshot = await getDocs(q);
+//     const notifications = querySnapshot.docs.map(doc => ({
+//       id: doc.id,
+//       ...doc.data()
+//     }));
     
-    console.log("Fetched notifications:", notifications);
-    return notifications;
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
-    throw error;
-  }
-};
+//     console.log("Fetched notifications:", notifications);
+//     return notifications;
+//   } catch (error) {
+//     console.error("Error fetching notifications:", error);
+//     throw error;
+//   }
+// };
 
 // Đánh dấu thông báo đã đọc
 export const markNotificationAsRead = async (notificationID) => {

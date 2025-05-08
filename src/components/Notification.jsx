@@ -15,7 +15,18 @@ const NotificationItem = ({ notification, onRead }) => {
     
     // Nếu thông báo có RelatedID, chuyển đến trang phản hồi trao đổi
     if (notification.RelatedID) {
-      navigate(`/exchange-response/${notification.RelatedID}`);
+      console.log("Notification clicked:", notification); // Thêm log để debug
+
+      if (notification.Type === 'exchange') {
+        console.log("Navigating to exchange response:", notification.RelatedID);
+        navigate(`/exchange-response/${notification.RelatedID}`);
+      } else if (notification.Type === 'sale') {
+        console.log("Navigating to sale response:", notification.RelatedID);
+        navigate(`/sale-response/${notification.RelatedID}`);
+      } else {
+        console.log("Unknown notification type, using default route");
+        navigate(`/notification-detail/${notification.id}`);
+      }
     }
   };
   

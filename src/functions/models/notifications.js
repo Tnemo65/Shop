@@ -5,7 +5,8 @@ export default class Notification {
       Message = "",
       IsRead = false,
       CreatedAt = new Date(),
-      RelatedID = ""    
+      RelatedID = "",    
+      Type = ""
     }) {
         console.log("===== DEBUG Notification Constructor =====");
         console.log("Input params:", { NotificationID, uid, Message, IsRead, CreatedAt, RelatedID });
@@ -15,6 +16,7 @@ export default class Notification {
       this.IsRead = IsRead;
       this.CreatedAt = CreatedAt;
       this.RelatedID = RelatedID;
+      this.Type = Type;
     }
   
     toJSON() {
@@ -24,7 +26,8 @@ export default class Notification {
         Message: this.Message,
         IsRead: this.IsRead,
         CreatedAt: this.CreatedAt,
-        RelatedID: this.RelatedID
+        RelatedID: this.RelatedID,
+        Type: this.Type
       };
     }
   

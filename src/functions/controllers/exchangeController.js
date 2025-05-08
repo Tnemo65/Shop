@@ -27,7 +27,8 @@ export const createExchangeTransaction = async (formData) => {
       Quantity2: formData.Quantity2,
       User1ID: formData.User1ID,
       User2ID: formData.User2ID,
-      Status: "pending"
+      Status: "pending",
+      Type: "exchange" // Thêm Type là "exchange"
     });
 
     console.log("Data being sent to Firestore:", transaction.toJSON());
@@ -63,7 +64,8 @@ if (user1Uid) {
   // Tạo đối tượng notification
   const notificationData = {
     Message: `Yêu cầu trao đổi của bạn cho sản phẩm ${formData.ProductID1} đang chờ phản hồi.`,
-    RelatedID: exchangeID
+    RelatedID: exchangeID,
+    Type: "exchange"  // Thêm Type là "exchange"
   };
   
   console.log("notificationData sending:", JSON.stringify(notificationData));
@@ -78,7 +80,8 @@ if (user2Uid) {
   // Tạo đối tượng notification
   const notificationData = {
     Message: `${formData.User1ID} muốn trao đổi sản phẩm ${formData.ProductID1} với sản phẩm ${formData.ProductID2} của bạn. Vui lòng phản hồi.`,
-    RelatedID: exchangeID
+    RelatedID: exchangeID,
+    Type: "exchange"  // Thêm Type là "exchange"
   };
   
   console.log("notificationData sending:", JSON.stringify(notificationData));
@@ -162,7 +165,8 @@ export const updateExchangeTransactionStatus = async (exchangeID, status) => {
       if (user1Uid) {
         await createNotification(user1Uid, {
           Message: `Yêu cầu trao đổi sản phẩm ${transaction.ProductID1} của bạn đã được chấp nhận.`,
-          RelatedID: exchangeID
+          RelatedID: exchangeID,
+          Type: "exchange"  // Thêm Type là "exchange"
         });
         console.log("Đã tạo thông báo chấp nhận cho người yêu cầu");
       }
@@ -171,7 +175,8 @@ export const updateExchangeTransactionStatus = async (exchangeID, status) => {
       if (user2Uid) {
         await createNotification(user2Uid, {
           Message: `Bạn đã chấp nhận yêu cầu trao đổi sản phẩm ${transaction.ProductID2} với ${transaction.User1ID}.`,
-          RelatedID: exchangeID
+          RelatedID: exchangeID,
+          Type: "exchange"  // Thêm Type là "exchange"
         });
         console.log("Đã tạo thông báo chấp nhận cho người nhận yêu cầu");
       }
@@ -181,7 +186,8 @@ export const updateExchangeTransactionStatus = async (exchangeID, status) => {
       if (user1Uid) {
         await createNotification(user1Uid, {
           Message: `Yêu cầu trao đổi sản phẩm ${transaction.ProductID1} của bạn đã bị từ chối.`,
-          RelatedID: exchangeID
+          RelatedID: exchangeID,
+          Type: "exchange"  // Thêm Type là "exchange"
         });
         console.log("Đã tạo thông báo từ chối cho người yêu cầu");
       }
@@ -190,7 +196,8 @@ export const updateExchangeTransactionStatus = async (exchangeID, status) => {
       if (user2Uid) {
         await createNotification(user2Uid, {
           Message: `Bạn đã từ chối yêu cầu trao đổi sản phẩm ${transaction.ProductID2} với ${transaction.User1ID}.`,
-          RelatedID: exchangeID
+          RelatedID: exchangeID,
+          Type: "exchange"  // Thêm Type là "exchange"
         });
         console.log("Đã tạo thông báo từ chối cho người nhận yêu cầu");
       }
